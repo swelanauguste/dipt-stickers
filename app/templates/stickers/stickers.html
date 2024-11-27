@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="small p-3">
+    <form action=""
+        method="post">
+        {% csrf_token %}
+        <div class="px-5 gap-2">
+            <div class="row p-0 m-0">
+                <div class="col p-0 m-0">
+                    {{ form.sticker|as_crispy_field }}
+
+                </div>
+                <div class="col">
+                    {{form.expires|as_crispy_field}}
+
+                </div>
+         
+                <div class="col">
+                    {{ form.name|as_crispy_field }}
+
+                </div>
+                <div class="col">
+                    {{form.no_plate|as_crispy_field}}
+
+                </div>
+                <div class="col">
+                    {{form.model|as_crispy_field}}
+
+                </div>
+                <div class="col">
+                    <br>
+            <button class="mt-2" type="submit">Submit</button>
+        </div>
+
+            </div>
+
+
+        </div>
+    </form>
+    <hr>
+    <h1 class="display-4">Stickers ({{stickers.count}})</h1>
+    <div class="table-responsive">
+        <table class="table table-hover table-sm small">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sticker</th>
+                    <th scope="col">Expires</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Number plate</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sticker in stickers %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td><a
+                            href="{{sticker.get_absolute_url}}">{{sticker.sticker}}</a>
+                    </td>
+                    <td>{{sticker.expires}}</td>
+
+                    <td><a
+                            href="{{sticker.get_absolute_url}}">{{sticker.name|upper}}</a>
+                    </td>
+
+                    <td>{{sticker.no_plate|upper}}</td>
+                    <td><a href="#">{{sticker.receipt}}</a></td>
+                    <td>
+                        <a
+                            href="{% url 'sticker-update' sticker.slug %}">Edit</a>
+                        <a href="">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
